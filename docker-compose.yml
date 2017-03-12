@@ -93,23 +93,6 @@ services:
         links:
             - php-fpm
 
-### Apache Server Container #################################
-
-    apache2:
-        build:
-            context: ./apache2
-            args:
-                - PHP_SOCKET=php-fpm:9000
-        volumes_from:
-            - applications
-        volumes:
-            - ./logs/apache2:/var/log/apache2
-        ports:
-            - "80:80"
-            - "443:443"
-        links:
-            - php-fpm
-
 ### HHVM Container ##########################################
 
     hhvm:
@@ -120,47 +103,6 @@ services:
             - "9000"
         links:
             - workspace
-
-### Minio Container #########################################
-
-    minio:
-        build: ./minio
-        volumes:
-            - minio:/export
-        ports:
-          - "9000:9000"
-        environment:
-          MINIO_ACCESS_KEY: access
-          MINIO_SECRET_KEY: secretkey
-
-### MySQL Container #########################################
-
-    mysql:
-        build:
-            context: ./mysql
-            args:
-                - MYSQL_DATABASE=homestead
-                - MYSQL_USER=homestead
-                - MYSQL_PASSWORD=secret
-                - MYSQL_ROOT_PASSWORD=root
-        volumes:
-            - mysql:/var/lib/mysql
-        ports:
-            - "3306:3306"
-
-### MariaDB Container #######################################
-
-    mariadb:
-        build: ./mariadb
-        volumes:
-            - mariadb:/var/lib/mysql
-        ports:
-            - "3306:3306"
-        environment:
-            MYSQL_DATABASE: homestead
-            MYSQL_USER: homestead
-            MYSQL_PASSWORD: secret
-            MYSQL_ROOT_PASSWORD: root
 
 ### PostgreSQL Container ####################################
 
@@ -188,27 +130,6 @@ services:
             POSTGRES_USER: homestead
             POSTGRES_PASSWORD: secret
 
-### Neo4j Container #########################################
-
-    neo4j:
-        build: ./neo4j
-        ports:
-            - "7474:7474"
-            - "1337:1337"
-        environment:
-            - NEO4J_AUTH=homestead:secret
-        volumes:
-            - neo4j:/var/lib/neo4j/data
-
-### MongoDB Container #######################################
-
-    mongo:
-        build: ./mongo
-        ports:
-            - "27017:27017"
-        volumes:
-            - mongo:/data/db
-
 ### Redis Container #########################################
 
     redis:
@@ -217,51 +138,6 @@ services:
             - redis:/data
         ports:
             - "6379:6379"
-
-### Memcached Container #####################################
-
-    memcached:
-        build: ./memcached
-        volumes:
-            - memcached:/var/lib/memcached
-        ports:
-            - "11211:11211"
-        links:
-            - php-fpm
-
-### Beanstalkd Container ####################################
-
-    beanstalkd:
-        build: ./beanstalkd
-        ports:
-            - "11300:11300"
-        privileged: true
-        links:
-            - php-fpm
-
-### RabbitMQ Container ######################################
-
-    rabbitmq:
-        build: ./rabbitmq
-        ports:
-            - "5672:5672"
-            - "15671:15671"
-            - "8080:15672"
-        privileged: true
-        environment:
-            RABBITMQ_DEFAULT_USER: guest
-            RABBITMQ_DEFAULT_PASS: guest
-        links:
-            - php-fpm
-
-### Beanstalkd Console Container ############################
-
-    beanstalkd-console:
-        build: ./beanstalkd-console
-        ports:
-            - "2080:2080"
-        links:
-            - beanstalkd
 
 ### phpMyAdmin Container ####################################
 
@@ -302,21 +178,9 @@ services:
 ### Volumes Setup ###########################################
 
 volumes:
-    mysql:
-        driver: "local"
     postgres:
         driver: "local"
-    memcached:
-        driver: "local"
     redis:
-        driver: "local"
-    neo4j:
-        driver: "local"
-    mariadb:
-        driver: "local"
-    mongo:
-        driver: "local"
-    minio:
         driver: "local"
     phpmyadmin:
         driver: "local"
