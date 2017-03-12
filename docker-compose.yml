@@ -346,7 +346,5 @@ volumes:
         driver: "local"
     phpmyadmin:
         driver: "local"
-    aerospike:
-        driver: "local"
     sessions:    ## nothing is connected to this (- ./data/sessions:/sessions)
         driver: "local"
