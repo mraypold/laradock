@@ -209,15 +209,6 @@ services:
         volumes:
             - mongo:/data/db
 
-### RethinkDB Container #######################################
-
-    rethinkdb:
-        build: ./rethinkdb
-        ports:
-            - "8090:8080"
-        volumes:
-            - rethinkdb:/data/rethinkdb_data
-
 ### Redis Container #########################################
 
     redis:
@@ -226,21 +217,6 @@ services:
             - redis:/data
         ports:
             - "6379:6379"
-
-### Aerospike c Container ###################################
-
-    aerospike:
-        build: ./aerospike
-        volumes_from:
-            - workspace
-        volumes:
-            - aerospike:/opt/aerospike/data
-        ports:
-            - "3000:3000"
-            - "3001:3001"
-            - "3002:3002"
-            - "3003:3003"
-
 
 ### Memcached Container #####################################
 
@@ -341,8 +317,6 @@ volumes:
     mongo:
         driver: "local"
     minio:
-        driver: "local"
-    rethinkdb:
         driver: "local"
     phpmyadmin:
         driver: "local"
